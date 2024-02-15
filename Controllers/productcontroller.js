@@ -1,6 +1,6 @@
 const express = require('express')
 const ProductModel = require('../Models/Product')
-const authenticateUser = require('../Middleware/auth')
+// const authenticateUser = require('../Middleware/auth')
 const { body, validationResult } = require('express-validator');
 const productController = express.Router()
 
@@ -100,7 +100,7 @@ productController.get('/products', async (req, res) => {
     body('gender').notEmpty().isIn(['male', 'female']),
     body('category').notEmpty().isIn(['makeup', 'skincare', 'haircare']),
     body('price').notEmpty().isNumeric()
-  ], validate, authenticateUser, async (req, res) => {
+  ], validate, async (req, res) => {
 
     const { name, picture, description, gender, category, price } = req.body;
     try {
@@ -115,7 +115,7 @@ productController.get('/products', async (req, res) => {
 
   // Update product
 
-  productController.patch('/products/:id', authenticateUser,[
+  productController.patch('/products/:id',[
     body('name').notEmpty().isLength({ min: 1, max: 50 }),
     body('picture').notEmpty(),
     body('description').notEmpty(),
@@ -144,7 +144,7 @@ productController.get('/products', async (req, res) => {
 
   //Delete Product
 
-  productController.delete('/products/:id', authenticateUser, async (req, res) => {
+  productController.delete('/products/:id',  async (req, res) => {
     const id = req.params.id
     const createrId = req.userId
     try {
