@@ -1,6 +1,6 @@
 const express = require('express')
 const ProductModel = require('../Models/Product')
-// const authenticateUser = require('../Middleware/auth')
+const authenticateUser = require('../Middleware/auth')
 const { body, validationResult } = require('express-validator');
 const productController = express.Router()
 
@@ -79,7 +79,7 @@ productController.get('/products', async (req, res) => {
 
  // Get product by id
 
-  productController.get('/products/:id', async (req, res) => {
+  productController.get('/products/:id', authenticateUser, async (req, res) => {
     try {
         const product = await ProductModel.findById(req.params.id);
         if (!product) {
@@ -122,7 +122,7 @@ productController.get('/products', async (req, res) => {
     body('gender').notEmpty().isIn(['male', 'female']),
     body('category').notEmpty().isIn(['makeup', 'skincare', 'haircare']),
     body('price').notEmpty().isNumeric()
-  ], validate, async (req, res) => {
+  ], validate, authenticateUser, async (req, res) => {
 
 
     const id = req.params.id
