@@ -100,7 +100,7 @@ productController.get('/products', async (req, res) => {
     body('gender').notEmpty().isIn(['male', 'female']),
     body('category').notEmpty().isIn(['makeup', 'skincare', 'haircare']),
     body('price').notEmpty().isNumeric()
-  ], validate, authenticateUser, async (req, res) => {
+  ], validate,  async (req, res) => {
 
     const { name, picture, description, gender, category, price } = req.body;
     try {
